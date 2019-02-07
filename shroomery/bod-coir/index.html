@@ -9,16 +9,24 @@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
+<!-- My design skills suck. Can you tell? -->
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <div class="container">
 
+<div class="row">
+<h2>
+Calculator for Bod's EAF Bucket Tek
+<small class="text-muted"><a href="https://www.shroomery.org/forums/showflat.php/Number/24077162">Reference</a></small>
+</h2>
+</div>
+
 <div class="form-group">
     <label for="finalVolume">Final Volume (L)</label>
     <input type="text" value = "10" class="form-control" id="finalVolume" aria-describedby="volumeHelp" placeholder="Litres">
-    <small id="volumeHelp" class="form-text text-muted">What total volume of substrate and spawn do you need? Basic math statements are permitted.</small>
+    <small id="volumeHelp" class="form-text text-muted">What total volume of substrate and spawn do you need? Basic math statements are possible.</small>
 </div>
 <div class="form-group">
     <label for="substrateRatio">Spawn:Substrate Ratio</label>
@@ -61,7 +69,7 @@ function calc() {
      alert("Invalid input to finalVolume. Please use valid characters, not funny things");
      return;
   }
-  finalVolume = eval(tmp);
+  finalVolume = eval(tmp)*1.0;
   substrateRatio = $("#substrateRatio").val()*1.0;
   hydrationFactor = $("#hydrationFactor").val()*1.0;
   expansionFactor = $("#expansionFactor").val()*1.0;
