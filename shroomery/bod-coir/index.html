@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/popper.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container">
+
+<div class="form-group">
+    <label for="finalVolume">Final Volume (L)</label>
+    <input type="text" value = "10" class="form-control" id="finalVolume" aria-describedby="volumeHelp" placeholder="Litres">
+    <small id="volumeHelp" class="form-text text-muted">What total volume of substrate and spawn do you need? Basic math is permitted.</small>
+</div>
+<div class="form-group">
+    <label for="substrateRatio">Substrate to Spawn Ratio</label>
+    <input type="number" value="2" class="form-control" id="substrateRatio" aria-describedby="spawnRatioHelp" placeholder="">
+    <small id="spawnRatioHelp" class="form-text text-muted">How many parts of substrate will you add per part of spawn?</small>
+  </div>
+  <div class="form-group">
+    <label for="hydrationFactor">Coir Hydration Factor (L/kg)</label>
+    <input type="number" value="5" class="form-control" id="hydrationFactor" aria-describedby="hydrationHelp" placeholder="litres per kilogram">
+    <small id="hydrationHelp" class="form-text text-muted">How many litres of water do you add to one kilogram of dry coir to hydrate?</small>
+  </div>
+    <div class="form-group">
+    <label for="expansionFactor">Coir Expansion Factor (g/L)</label>
+    <input type="number" value="95" class="form-control" id="expansionFactor" aria-describedby="expansionHelp" placeholder="grams per litre">
+    <small id="expansionHelp" class="form-text text-muted">How many grams of dry coir produces one litre of hydrated coir?</small>
+  </div>
+  <button type="submit" class="btn btn-primary" id="calculate">Calculate</button>
+
+<div class="row">
+  <div id="results" class="col-12">Results will appear here</div>
+</div>
+
+<script>
+
+calculatorRe = RegExp("[^ 0-9+\\-/\\*\\+\\(\\)\\.]");
+
+$( "#calculate" ).click(function() {
+  tmp = $("#finalVolume").val();
+  if(calculatorRe.test(tmp)) {
+     alert("Invalid input to finalVolume. Please use valid characters, not funny things");
+     return;
+  }
+  finalVolume = eval(tmp);
+  substrateRatio = $("#substrateRatio").val();
+  hydrationFactor = $("#hydrationFactor").val();
+  expansionFactor = $("#expansionFactor").val();
+  
+  spawnVolume = finalVolume/(1 + substrateRatio);
+  substrateVolume = finalVolume - spawnVolume;
+  coirMass = substrateVolume * expansionFactor/1000;
+  waterVolume = coirMass * hydrationFactor;
+  gypsumMass = substrateVolume * 0.05 * 1000 * 0.9;
+  
+  $("#results").html("Mix " + coirMass.toFixed(3) + " kg of coir with " + waterVolume.toFixed(3) + " litres of boiling water to give " + substrateVolume.toFixed(3) + " litres of hydrated coir. Once cooled, mix with " + spawnVolume.toFixed(3) + " litres of colonized spawn. Optionally, add " + gypsumMass.toFixed(0) + " g of gypsum.");
+  
+});
+</script>
+
+</div>
+
+</body>
+</html>
