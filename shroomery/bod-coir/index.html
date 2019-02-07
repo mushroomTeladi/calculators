@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/popper.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -19,7 +18,7 @@
 <div class="form-group">
     <label for="finalVolume">Final Volume (L)</label>
     <input type="text" value = "10" class="form-control" id="finalVolume" aria-describedby="volumeHelp" placeholder="Litres">
-    <small id="volumeHelp" class="form-text text-muted">What total volume of substrate and spawn do you need? Basic math is permitted.</small>
+    <small id="volumeHelp" class="form-text text-muted">What total volume of substrate and spawn do you need? Basic math statements are permitted.</small>
 </div>
 <div class="form-group">
     <label for="substrateRatio">Substrate to Spawn Ratio</label>
@@ -37,11 +36,15 @@
     <small id="expansionHelp" class="form-text text-muted">How many grams of dry coir produces one litre of hydrated coir?</small>
   </div>
   <button type="submit" class="btn btn-primary" id="calculate">Calculate</button>
-
+<p></p>
 <div class="row">
   <div id="results" class="col-12">Results will appear here</div>
 </div>
-
+<p></p>
+<div class="row">
+  <div id="resultsSub" class="col-12"></div>
+</div>
+<p></p>
 <script>
 
 calculatorRe = RegExp("[^ 0-9+\\-/\\*\\+\\(\\)\\.]");
@@ -59,11 +62,13 @@ $( "#calculate" ).click(function() {
   
   spawnVolume = finalVolume/(1 + substrateRatio);
   substrateVolume = finalVolume - spawnVolume;
-  coirMass = substrateVolume * expansionFactor/1000;
+  coirMass = substrateVolume * expansionFactor/1000.0;
   waterVolume = coirMass * hydrationFactor;
   gypsumMass = substrateVolume * 0.05 * 1000 * 0.9;
   
-  $("#results").html("Mix " + coirMass.toFixed(3) + " kg of coir with " + waterVolume.toFixed(3) + " litres of boiling water to give " + substrateVolume.toFixed(3) + " litres of hydrated coir. Once cooled, mix with " + spawnVolume.toFixed(3) + " litres of colonized spawn. Optionally, add " + gypsumMass.toFixed(0) + " g of gypsum.");
+  $("#results").html("Mix " + coirMass.toFixed(3) + " kg of coir with " + waterVolume.toFixed(3) + " litres of boiling water. Once cooled, mix with " + spawnVolume.toFixed(3) + " litres of fully colonized spawn.");
+  $("#resultsSub").html("<pre>Total volume: " + finalVolume.toFixed(3) + " L\nSpawn volume: " + spawnVolume.toFixed(3) + "L \nSubstrate Volume: " + substrateVolume.toFixed(3) + " L\nCoir Mass: " + coirMass.toFixed(3) + " kg\nWater volume: " + waterVolume.toFixed(3) + " L\nOptional Gypsum: " + gypsumMass.toFixed(0) + " g\n</pre>");
+
   
 });
 </script>
