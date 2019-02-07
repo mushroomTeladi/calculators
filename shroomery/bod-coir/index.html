@@ -59,9 +59,13 @@ calculatorRe = RegExp("[^ 0-9+\\-/\\*\\+\\(\\)\\.]");
 
 $("#calculate").click(calc);
 $("#finalVolume").change(calc);
+$("#finalVolume").keyup(calc);
 $("#substrateRatio").change(calc);
+$("#substrateRatio").keyup(calc);
 $("#hydrationFactor").change(calc);
+$("#hydrationFactor").keyup(calc);
 $("#expansionFactor").change(calc);
+$("#expansionFactor").keyup(calc);
 
 function calc() {
   tmp = $("#finalVolume").val();
