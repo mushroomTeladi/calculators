@@ -21,14 +21,14 @@
     <small id="volumeHelp" class="form-text text-muted">What total volume of substrate and spawn do you need? Basic math statements are permitted.</small>
 </div>
 <div class="form-group">
-    <label for="substrateRatio">Substrate to Spawn Ratio</label>
+    <label for="substrateRatio">Spawn:Substrate Ratio</label>
     <input type="number" value="2" class="form-control" id="substrateRatio" aria-describedby="spawnRatioHelp" placeholder="">
     <small id="spawnRatioHelp" class="form-text text-muted">How many parts of substrate will you add per part of spawn?</small>
   </div>
   <div class="form-group">
     <label for="hydrationFactor">Coir Hydration Factor (L/kg)</label>
     <input type="number" value="5" class="form-control" id="hydrationFactor" aria-describedby="hydrationHelp" placeholder="litres per kilogram">
-    <small id="hydrationHelp" class="form-text text-muted">How many litres of water do you add to one kilogram of dry coir to hydrate?</small>
+    <small id="hydrationHelp" class="form-text text-muted">How many litres of water do you add to one kilogram of dry coir to hydrate to field capacity?</small>
   </div>
     <div class="form-group">
     <label for="expansionFactor">Coir Expansion Factor (g/L)</label>
@@ -49,16 +49,22 @@
 
 calculatorRe = RegExp("[^ 0-9+\\-/\\*\\+\\(\\)\\.]");
 
-$( "#calculate" ).click(function() {
+$("#calculate").click(calc);
+$("#finalVolume").change(calc);
+$("#substrateRatio").change(calc);
+$("#hydrationFactor").change(calc);
+$("#expansionFactor").change(calc);
+
+function calc() {
   tmp = $("#finalVolume").val();
   if(calculatorRe.test(tmp)) {
      alert("Invalid input to finalVolume. Please use valid characters, not funny things");
      return;
   }
   finalVolume = eval(tmp);
-  substrateRatio = $("#substrateRatio").val();
-  hydrationFactor = $("#hydrationFactor").val();
-  expansionFactor = $("#expansionFactor").val();
+  substrateRatio = $("#substrateRatio").val()*1.0;
+  hydrationFactor = $("#hydrationFactor").val()*1.0;
+  expansionFactor = $("#expansionFactor").val()*1.0;
   
   spawnVolume = finalVolume/(1 + substrateRatio);
   substrateVolume = finalVolume - spawnVolume;
@@ -67,13 +73,18 @@ $( "#calculate" ).click(function() {
   gypsumMass = substrateVolume * 0.05 * 1000 * 0.9;
   
   $("#results").html("Mix " + coirMass.toFixed(3) + " kg of coir with " + waterVolume.toFixed(3) + " litres of boiling water. Once cooled, mix with " + spawnVolume.toFixed(3) + " litres of fully colonized spawn.");
-  $("#resultsSub").html("<pre>Total volume: " + finalVolume.toFixed(3) + " L\nSpawn volume: " + spawnVolume.toFixed(3) + "L \nSubstrate Volume: " + substrateVolume.toFixed(3) + " L\nCoir Mass: " + coirMass.toFixed(3) + " kg\nWater volume: " + waterVolume.toFixed(3) + " L\nOptional Gypsum: " + gypsumMass.toFixed(0) + " g\n</pre>");
+  $("#resultsSub").html("<pre>Total volume: " + finalVolume.toFixed(3) + " L\nSpawn volume: " + spawnVolume.toFixed(3) + "L \nSubstrate Volume: " + substrateVolume.toFixed(3) + " L\nCoir Mass: " + coirMass.toFixed(3) + " kg\nWater volume: " + waterVolume.toFixed(3) + " L\nOptional Gypsum: " + gypsumMass.toFixed(0) + " g\nSpawn:Substrate ratio is 1:" + substrateRatio.toFixed(1) + "</pre>");
 
   
-});
+}
 </script>
 
 </div>
 
 </body>
+<footer class="page-footer font-small">
+<div class="footer-copyright text-center small">
+Questions? Contact <a href="https://www.shroomery.org/forums/sendprivate.php?Cat=0&User=411427" target="_blank">teladi</a>.
+</div>
+</footer>
 </html>
